@@ -15,7 +15,7 @@ inputs:
     required: false
     default: "latest"
   auth:
-    description: 'base64 string for basic auth'
+    description: 'user:password for basic auth'
     required: true
 
 runs:
@@ -25,7 +25,7 @@ runs:
     - '--silent'
     - '--show-error'
     - '--fail'
-    - -H "Authorization: Basic ${{ inputs.auth }}"
+    - '-u "${{ inputs.auth }}"'
     - '-X'
     - 'POST'
     - '-d'
