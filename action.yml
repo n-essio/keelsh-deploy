@@ -14,6 +14,9 @@ inputs:
     description: 'tag to push'
     required: false
     default: "latest"
+  auth:
+    description: 'base64 string for basic auth'
+    required: true
 
 runs:
   using: 'docker'
@@ -22,6 +25,7 @@ runs:
     - '--silent'
     - '--show-error'
     - '--fail'
+    - -H "Authorization: Basic ${{ inputs.auth }}"
     - '-X'
     - 'POST'
     - '-d'
