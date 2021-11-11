@@ -25,7 +25,7 @@ runs:
     - '--silent'
     - '--show-error'
     - '--fail'
-    - '-u "${{ inputs.auth }}"'
+    - '-u ${{ inputs.auth }}'
     - '-X'
     - 'POST'
     - '-d'
