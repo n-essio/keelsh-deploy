@@ -27,7 +27,7 @@ steps:
   - name: insecure update
     using: 'docker'
     image: 'docker://curlimages/curl:latest'
-    if: ${{ github.event.inputs.insecure && github.event.inputs.insecure != false }}
+    if: ${{ inputs.insecure && inputs.insecure != false }}
     args:
       - '--silent'
       - '--show-error'
@@ -42,7 +42,7 @@ steps:
   - name: update  
     using: 'docker'
     image: 'docker://curlimages/curl:latest'
-    if: ${{ github.event.inputs.insecure && github.event.inputs.insecure == false }}
+    if: ${{ inputs.insecure && inputs.insecure == false }}
     args:
       - '--silent'
       - '--show-error'
