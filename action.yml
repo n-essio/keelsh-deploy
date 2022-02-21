@@ -23,34 +23,17 @@ inputs:
     default: false
 
 runs:
-steps:
-  - name: insecure update
-    using: 'docker'
-    image: 'docker://curlimages/curl:latest'
-    if: ${{ inputs.insecure && inputs.insecure != false }}
-    args:
-      - '--silent'
-      - '--show-error'
-      - '--fail'
-      - '-u'
-      - '${{ inputs.auth }}'
-      - '-X'
-      - 'POST'
-      - '-d'
-      - '{"name": "${{ inputs.image }}", "tag": "${{ inputs.tag }}"}'
-      - '${{ inputs.keelBaseUrl }}/v1/webhooks/native'
-  - name: update  
-    using: 'docker'
-    image: 'docker://curlimages/curl:latest'
-    if: ${{ inputs.insecure && inputs.insecure == false }}
-    args:
-      - '--silent'
-      - '--show-error'
-      - '--fail'
-      - '-u'
-      - '${{ inputs.auth }}'
-      - '-X'
-      - 'POST'
-      - '-d'
-      - '{"name": "${{ inputs.image }}", "tag": "${{ inputs.tag }}"}'
-      - '${{ inputs.keelBaseUrl }}/v1/webhooks/native'
+  using: 'docker'
+  image: 'docker://curlimages/curl:latest'
+  args:
+    - '--silent'
+    - '--insecure'
+    - '--show-error'
+    - '--fail'
+    - '-u'
+    - '${{ inputs.auth }}'
+    - '-X'
+    - 'POST'
+    - '-d'
+    - '{"name": "${{ inputs.image }}", "tag": "${{ inputs.tag }}"}'
+    - '${{ inputs.keelBaseUrl }}/v1/webhooks/native'
