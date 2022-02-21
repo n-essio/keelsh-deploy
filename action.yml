@@ -17,18 +17,40 @@ inputs:
   auth:
     description: 'user:password for basic auth'
     required: true
+  insecure:
+    type: boolean
+    required: false
+    default: false
 
 runs:
-  using: 'docker'
-  image: 'docker://curlimages/curl:latest'
-  args:
-    - '--silent'
-    - '--show-error'
-    - '--fail'
-    - '-u'
-    - '${{ inputs.auth }}'
-    - '-X'
-    - 'POST'
-    - '-d'
-    - '{"name": "${{ inputs.image }}", "tag": "${{ inputs.tag }}"}'
-    - '${{ inputs.keelBaseUrl }}/v1/webhooks/native'
+steps:
+  - name: insecure update
+    using: 'docker'
+    image: 'docker://curlimages/curl:latest'
+    if: ${{ github.event.inputs.insecure && github.event.inputs.insecure != false }}
+    args:
+      - '--silent'
+      - '--show-error'
+      - '--fail'
+      - '-u'
+      - '${{ inputs.auth }}'
+      - '-X'
+      - 'POST'
+      - '-d'
+      - '{"name": "${{ inputs.image }}", "tag": "${{ inputs.tag }}"}'
+      - '${{ inputs.keelBaseUrl }}/v1/webhooks/native'
+  - name: update  
+    using: 'docker'
+    image: 'docker://curlimages/curl:latest'
+    if: ${{ github.event.inputs.insecure && github.event.inputs.insecure == false }}
+    args:
+      - '--silent'
+      - '--show-error'
+      - '--fail'
+      - '-u'
+      - '${{ inputs.auth }}'
+      - '-X'
+      - 'POST'
+      - '-d'
+      - '{"name": "${{ inputs.image }}", "tag": "${{ inputs.tag }}"}'
+      - '${{ inputs.keelBaseUrl }}/v1/webhooks/native'
